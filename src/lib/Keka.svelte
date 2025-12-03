@@ -44,10 +44,10 @@
 </script>
 
 <div>
-    <div class="step">Step 1 of 3</div>
+    <div class="step">Step 2 of 3</div>
     <h1>Connect to Keka</h1>
     <div class="form">
-        <button on:click={handleNext}>{ buttonText }</button>
+        <button onclick={handleNext}>{ buttonText }</button>
         {#if error}<p class="error">Make sure you have logged into keka and try again.</p>{/if}
     </div>
 </div>

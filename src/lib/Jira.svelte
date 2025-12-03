@@ -86,7 +86,7 @@
         console.log({ jiraUrl, jiraEmail, apiToken });
         let [resp, err] = await getInProgressTask({jiraUrl, jiraEmail, apiToken}, project, status)
         console.log({err})
-        if (err!==null) {
+        if (err !== null) {
             return authError = "Connection failed, Please check your credentials."
         }
         authError = "";
@@ -95,7 +95,7 @@
 </script>
 
 <div>
-    <div class="step">Step 2 of 3</div>
+    <div class="step">Step 1 of 3</div>
     <h1>Connect to Jira</h1>
 
     <div class="form">

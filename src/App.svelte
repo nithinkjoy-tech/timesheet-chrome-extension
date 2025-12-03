@@ -2,6 +2,7 @@
     import { fade } from 'svelte/transition';
     import Jira from "./lib/Jira.svelte";
     import Keka from "./lib/Keka.svelte";
+    import OrbitOne from "./lib/OrbitOne.svelte";
 
     let currentStep = 1;
 
@@ -14,7 +15,8 @@
     {#key currentStep}
         <div class="step" in:fade out:fade>
             {#if currentStep === 1}
-                <Jira next={nextStep} />
+                <OrbitOne />
+<!--                <Jira next={nextStep} />-->
             {:else if currentStep === 2}
                 <Keka next={nextStep} />
             {/if}

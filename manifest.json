@@ -9,13 +9,16 @@
     "service_worker": "background.js"
   },
   "permissions": [
+    "identity",
     "tabs",
     "storage",
     "scripting"
   ],
   "host_permissions": [
     "*://cloverbay.keka.com/*",
-    "https://*.atlassian.net/*"
+    "https://*.atlassian.net/*",
+    "https://orbitone-auth.cloverbaytechnologies.com/*",
+    "https://www.orbitone.cloverbaytechnologies.com/*"
   ],
   "content_scripts": [
     {
