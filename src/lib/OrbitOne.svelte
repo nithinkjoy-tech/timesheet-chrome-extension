@@ -1,10 +1,60 @@
 <script>
-    let username = $state('CBT176');
+    import {storage} from "../services/storage.js";
+
+    let username = $state('');
     let password = $state('');
     let showPassword = $state(false);
+    let errors = $state({ username: '', password: '' });
+    let touched = $state({ username: false, password: false });
+
+    function validateField(field) {
+        if (field === 'username') {
+            if (!username.trim()) {
+                errors.username = 'Username is required';
+            } else {
+                errors.username = '';
+            }
+        }
+
+        if (field === 'password') {
+            if (!password.trim()) {
+                errors.password = 'Password is required';
+            } else {
+                errors.password = '';
+            }
+        }
+    }
+
+    function handleBlur(field) {
+        touched[field] = true;
+        validateField(field);
+    }
 
     function handleLogin() {
+        // Mark all as touched
+        touched = { username: true, password: true };
+
+        // Validate all fields
+        validateField('username');
+        validateField('password');
+
+        // If there are errors, don't proceed
+        if (errors.username || errors.password) {
+            return;
+        }
+
+        // Save credentials to Chrome storage
+        storage.set({
+            orbitone_username: username,
+            orbitone_password: password
+        });
+
         console.log('Logging in...', { username, password });
+    }
+
+    async function getOrbitOneCredentials() {
+        let orbitOneUsername = await storage.get("orbitone_username")
+        let orbitOnePassword = await storage.get("orbitone_password")
     }
 </script>
 
@@ -26,7 +76,9 @@
                     bind:value={username}
                     class="input"
                     placeholder="Username"
+                    onblur={() => handleBlur('username')}
             />
+            {#if touched.username && errors.username}<p class="error error-padding">{errors.username}</p>{/if}
         </div>
 
         <!-- Password Input -->
@@ -36,12 +88,18 @@
                     bind:value={password}
                     class="input"
                     placeholder="Password"
+                    onblur={() => handleBlur('password')}
             />
+            {#if touched.password && errors.password}<p class="error error-padding">{errors.password}</p>{/if}
         </div>
 
         <!-- Login Button -->
         <button class="login-btn" onclick={handleLogin}>
             Login
+        </button>
+
+        <button class="login-btn" onclick={getOrbitOneCredentials}>
+            Credential
         </button>
     </div>
 </div>
@@ -58,14 +116,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2rem;
     }
 
     .card {
         width: 100%;
         max-width: 440px;
         border-radius: 2rem;
-        padding: 3rem 2.5rem;
     }
 
     .logo-section {
@@ -84,6 +140,11 @@
         color: #e2e8f0;
         margin: 0;
         letter-spacing: -0.02em;
+    }
+
+    .error-padding {
+        padding-top: 16px;
+        padding-left: 12px;
     }
 
     .title {
