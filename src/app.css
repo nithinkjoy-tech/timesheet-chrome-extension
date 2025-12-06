@@ -105,6 +105,12 @@ button:hover {
     opacity: 0.8;
 }
 
+button:disabled {
+    background: #6699ff;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .error {
     text-align: left;
     color: red;

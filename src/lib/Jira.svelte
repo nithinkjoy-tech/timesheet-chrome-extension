@@ -1,5 +1,6 @@
 <script>
     import { getInProgressTask } from "../services/jiraService.js"
+    import {storage} from "../services/storage.js";
     let { next } = $props();
 
     let jiraUrl = $state("");
@@ -23,14 +24,6 @@
         jiraUrl: "",
         jiraEmail: "",
         apiToken: "",
-    });
-
-    // Derived state to check if form is valid
-    let isValid = $derived(() => {
-        const hasJiraUrl = jiraUrl && /^https:\/\/.+\.(atlassian\.net|jira\.com)\/?$/i.test(jiraUrl);
-        const hasEmail = jiraEmail && /\S+@\S+\.\S+/.test(jiraEmail);
-        const hasToken = apiToken && apiToken.length >= 10;
-        return hasJiraUrl && hasEmail && hasToken;
     });
 
     const validateField = (field) => {
@@ -89,6 +82,12 @@
         if (err !== null) {
             return authError = "Connection failed, Please check your credentials."
         }
+        await storage.set({
+            jira_url: jiraUrl,
+            jira_email: jiraEmail,
+            jira_token: apiToken
+        });
+
         authError = "";
         next();
     };

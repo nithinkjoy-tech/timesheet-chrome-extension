@@ -1,5 +1,7 @@
 <script>
 
+    import {storage} from "../services/storage.js";
+
     let {next} = $props()
 
     let kekaAccessToken = "";
@@ -36,6 +38,9 @@
                 return;
             }
             buttonText = "Connected."
+            storage.set({
+                keka_token: kekaAccessToken
+            });
             next()
         } catch (error) {
             error = true;

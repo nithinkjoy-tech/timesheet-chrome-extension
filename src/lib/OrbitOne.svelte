@@ -94,7 +94,7 @@
         </div>
 
         <!-- Login Button -->
-        <button class="login-btn" onclick={handleLogin}>
+        <button class="login-btn" onclick={handleLogin} disabled={isValid}>
             Login
         </button>
 
